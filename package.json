@@ -78,6 +78,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
+    "install": "sh install.sh",
     "test": "grunt test",
     "update-webdriver": "node node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update"
   },
