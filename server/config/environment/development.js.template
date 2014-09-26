@@ -1,0 +1,13 @@
+'use strict';
+
+// Development specific configuration
+// ==================================
+module.exports = {
+  session: {
+    secret: '' // 64+ char phrase
+  },
+  couchdb: {
+    url: 'http://localhost:5984',
+    nodes: 'pineapple-nodes'
+  }
+};

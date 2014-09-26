@@ -1,0 +1,18 @@
+<div ng-controller="NavbarCtrl">
+<top-bar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="">{{siteName}}</a></h1>
+    </li>
+    <li class="toggle-topbar menu-icon" toggle-top-bar><a href="#"><span></span></a></li>
+  </ul>
+  <top-bar-section>
+    <!-- Right Nav Section -->
+    <ul class="right">
+    </ul>
+    <!-- Left Nav Section -->
+    <ul class="left">
+      <li ng-repeat="item in menu" ng-class="{active: isActive(item.link)}"><a ng-href="{{item.link}}" ng-click="item.onClick()">{{item.label}}</a></li>
+    </ul>
+  </top-bar-section>
+</top-bar>
