@@ -52,6 +52,23 @@ $ bower install
 $ grunt serve
 ```
 
+Standardize Development
+------------------------
+
+```bash
+# Install Yeoman (http://yeoman.io)
+$ npm install -g yo
+
+# Install the fullstack generator
+$ npm install -g generator-angular-fullstack
+
+# Utilize generators for endpoints and routes
+yo angular-fullstack:endpoint myEndpoint
+yo angular-fullstack:route myRoute
+
+# See https://github.com/DaftMonk/generator-angular-fullstack#generators for full list.
+```
+
 Testing
 ------
 
