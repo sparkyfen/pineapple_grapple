@@ -1,6 +1,113 @@
 Pineapple Grapple
 ============
 
+WiFi MITM Backend Detector Service
+
+Authors
+-------
+[Adam Schodde](mailto:aaschodd@asu.edu)
+[Lester Penning](mailto:Lester.Penning@asu.edu)
+[Lincoln Turley](mailto:llturley@asu.edu)
+
+Demo
+-----
+[http://pineapple-grapple.herokuapp.com/](http://pineapple-grapple.herokuapp.com/)
+
+API Docs
+--------
+[Code](/client/docs/)
+[Output](http://pineapple-grapple.herokuapp.com/docs/)
+
+
 TODO
 -----
-Check out [Google GeoLocation](https://developers.google.com/maps/documentation/business/geolocation/)
+[Here](TODO.md)
+
+Dependencies
+------------
+
+* [NodeJS](http://nodejs.org/)
+* [CouchDB](http://couchdb.apache.org/)
+* [Redis (For production)](http://redis.io/)
+
+Development
+-----------
+
+```bash
+$ git clone <repo url> /path/to/dump/repo
+$ cd /path/to/repo
+
+# Start up DB
+$ couchdb
+
+# Set environment variable for development
+$ export NODE_ENV=development
+
+# Set environment variable for production
+$ export NODE_ENV=production
+
+# Don't forget to edit your configuration files at lib/config/env/
+
+# Install client-side dependencies
+$ bower install
+
+# Development server startup
+$ grunt serve
+```
+
+Testing
+------
+
+```bash
+$ grunt test
+```
+
+Production
+----------
+
+```bash
+# Build for Production
+$ grunt
+$ mv ./dist /path/to/production/location && cd /path/to/production/location
+
+# Use Node to run for production
+$ export IP=127.0.0.1
+$ PORT=9000
+$ node server.js
+
+# Or use forever for production (https://github.com/nodejitsu/forever)
+$ export IP=127.0.0.1
+$ PORT=9000
+$ forever start server.js
+```
+
+Heroku Production
+----------------
+
+```bash
+# Build for Production
+$ grunt
+$ cd dist
+
+# Create Heroku application via https://dashboard.heroku.com/apps
+# Add Redis To-Go to application.
+
+# Add git remote to distrbution folder
+$ git remote add heroku git@heroku.com:app-name.git
+
+# Edit production settings file
+$ vim server/config/environment/production.js
+
+# Add config variables to Heroku config list
+heroku config:add NODE_ENV=production
+heroku config:add DOMAIN=app-name.herokuapp.com
+heroku config:add HEROKU_COOKIE_SECRET=MYSECRET
+heroku config:add HEROKU_COUCHDB_URL=http://my-couchdb-server:5984
+
+# Add files, commit and push
+git add ./*
+git commit -m "My message"
+git push heroku master
+
+# View Site! :)
+```

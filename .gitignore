@@ -8,3 +8,4 @@ dist
 development.js
 production.js
 wp5.sh
+client/docs/output

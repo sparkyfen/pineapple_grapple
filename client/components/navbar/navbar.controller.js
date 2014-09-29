@@ -6,7 +6,7 @@ angular.module('pineappleGrappleApp').controller('NavbarCtrl', ['$scope', '$loca
     iconClass: 'fi-home',
     label: 'Home',
     link: '/',
-    onClick: $location.path('/')
+    onClick: function () {}
   }, {
     iconClass: 'fi-social-github',
     label: 'Github',
@@ -17,7 +17,14 @@ angular.module('pineappleGrappleApp').controller('NavbarCtrl', ['$scope', '$loca
     iconClass: 'fi-info',
     label: 'About',
     link: '/about',
-    onClick: $location.path('/')
+    onClick: function () {}
+  }, {
+    iconClass: 'fi-info',
+    label: 'Docs',
+    link: '/docs',
+    onClick: function () {
+      $window.open('/docs');
+    }
   }];
   $scope.isActive = function(route) {
     return route === $location.path();

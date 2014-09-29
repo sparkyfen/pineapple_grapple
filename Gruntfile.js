@@ -31,7 +31,8 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       client: require('./bower.json').appPath || 'client',
-      dist: 'dist'
+      dist: 'dist',
+      docs: (require('./bower.json').appPath|| 'client') + '/docs'
     },
     express: {
       options: {
@@ -357,7 +358,9 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>',
           src: [
             'package.json',
-            'server/**/*'
+            'server/**/*',
+            'install.sh',
+            'install.js'
           ]
         }]
       },
@@ -448,6 +451,13 @@ module.exports = function (grunt) {
         NODE_ENV: 'production'
       },
       all: localConfig
+    },
+
+    apidoc: {
+      dist: {
+        src: "<%= yeoman.docs %>/src/",
+        dest: "<%= yeoman.dist %>/public/docs/"
+      }
     },
 
     injector: {
@@ -602,7 +612,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'apidoc'
   ]);
 
   grunt.registerTask('default', [

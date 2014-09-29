@@ -1,0 +1,22 @@
+'use strict';
+
+// Production specific configuration
+// =================================
+module.exports = {
+  // Server IP
+  ip: process.env.OPENSHIFT_NODEJS_IP ||
+        process.env.IP ||
+        undefined,
+
+  // Server port
+  port: process.env.OPENSHIFT_NODEJS_PORT ||
+            process.env.PORT ||
+            8080,
+  session: {
+    secret: process.env.HEROKU_COOKIE_SECRET || '' // 64+ char phrase
+  },
+  couchdb: {
+    url: process.env.HEROKU_COUCHDB_URL || 'http://localhost:5984',
+    nodes: 'pineapple-nodes'
+  }
+};

@@ -40,6 +40,7 @@ module.exports = function(app) {
     app.use(require('connect-livereload')());
     app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'client')));
+    app.use('/docs', express.static(path.join(config.root, 'client/docs/output')));
     app.set('appPath', 'client');
     app.use(morgan('dev'));
     app.use(errorHandler()); // Error handler - has to be last

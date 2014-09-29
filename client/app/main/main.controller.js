@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('pineappleGrappleApp').controller('MainCtrl', ['$scope', function ($scope) {}]);
+angular.module('pineappleGrappleApp').controller('MainCtrl', [function () {}]);
