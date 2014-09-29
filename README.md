@@ -43,9 +43,6 @@ $ couchdb
 # Set environment variable for development
 $ export NODE_ENV=development
 
-# Set environment variable for production
-$ export NODE_ENV=production
-
 # Don't forget to edit your configuration files at lib/config/env/
 
 # Install client-side dependencies
@@ -70,14 +67,17 @@ Production
 $ grunt
 $ mv ./dist /path/to/production/location && cd /path/to/production/location
 
+# Set environment variable for production
+$ export NODE_ENV=production
+
 # Use Node to run for production
 $ export IP=127.0.0.1
-$ PORT=9000
+$ export PORT=9000
 $ node server.js
 
 # Or use forever for production (https://github.com/nodejitsu/forever)
 $ export IP=127.0.0.1
-$ PORT=9000
+$ export PORT=9000
 $ forever start server.js
 ```
 
