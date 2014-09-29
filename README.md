@@ -67,6 +67,9 @@ Production
 $ grunt
 $ mv ./dist /path/to/production/location && cd /path/to/production/location
 
+# Install dependencies
+$ npm install
+
 # Set environment variable for production
 $ export NODE_ENV=production
 
@@ -92,7 +95,7 @@ $ cd dist
 # Create Heroku application via https://dashboard.heroku.com/apps
 # Add Redis To-Go to application.
 
-# Add git remote to distrbution folder
+# Add git remote to distribution folder
 $ git remote add heroku git@heroku.com:app-name.git
 
 # Edit production settings file
