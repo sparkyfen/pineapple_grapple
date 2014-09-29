@@ -63,8 +63,8 @@ $ npm install -g yo
 $ npm install -g generator-angular-fullstack
 
 # Utilize generators for endpoints and routes
-yo angular-fullstack:endpoint myEndpoint
-yo angular-fullstack:route myRoute
+$ yo angular-fullstack:endpoint myEndpoint
+$ yo angular-fullstack:route myRoute
 
 # See https://github.com/DaftMonk/generator-angular-fullstack#generators for full list.
 ```
