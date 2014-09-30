@@ -5,9 +5,9 @@ WiFi MITM Backend Detector Service
 
 Authors
 -------
-[Adam Schodde](mailto:aaschodd@asu.edu)
-[Lester Penning](mailto:Lester.Penning@asu.edu)
-[Lincoln Turley](mailto:llturley@asu.edu)
+* [Adam Schodde](mailto:aaschodd@asu.edu)
+* [Lester Penning](mailto:Lester.Penning@asu.edu)
+* [Lincoln Turley](mailto:llturley@asu.edu)
 
 Demo
 -----
@@ -15,8 +15,8 @@ Demo
 
 API Docs
 --------
-[Code](/client/docs/)
-[Output](http://pineapple-grapple.herokuapp.com/docs/)
+* [Code](/client/docs/)
+* [Output](http://pineapple-grapple.herokuapp.com/docs/)
 
 
 TODO
