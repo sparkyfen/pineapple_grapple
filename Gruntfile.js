@@ -454,6 +454,10 @@ module.exports = function (grunt) {
     },
 
     apidoc: {
+      dev: {
+        src: "<%= yeoman.docs %>/src/",
+        dest: "<%= yeoman.docs %>/output/"
+      },
       dist: {
         src: "<%= yeoman.docs %>/src/",
         dest: "<%= yeoman.dist %>/public/docs/"

@@ -44,6 +44,44 @@
  */
 
 /**
+ * @api {post} /api/ip/query Query
+ * @apiVersion 1.0.0
+ * @apiName Query
+ * @apiGroup IP
+ * @apiPermission public
+ *
+ * @apiDescription Queries the domain of a given IPv4 address.
+ *
+ * @apiParam {String} ip The IP v4 address.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ip/query' -d 'ip=74.125.228.103'
+ *
+ * @apiSuccess {String[]} Domains The list of domains for a requested IPv4 address.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     ["lax02s19-in-f6.1e100.net"]
+ *
+ * @apiError (Bad Request 400) MissingIP The IP address was not in the request.
+ * @apiError (Bad Request 400) InvalidIP The IP address is not a valid IP address.
+ * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
+ *
+ * @apiErrorExample Error-Response (Missing IP)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Missing IP address."}
+ *
+ * @apiErrorExample Error-Response (Invalid IP)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid IP v4 address."}
+ *
+ * @apiErrorExample Error-Response (Internal Server Error)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"Could not lookup the requested IP address."}
+ *
+ */
+
+/**
  * @api {post} /api/ap/addRecord AddRecord
  * @apiVersion 1.0.0
  * @apiName AddRecord
