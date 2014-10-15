@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from subprocess import check_output
 import xmltodict
+import json
 
 
 def convert_security_type(security_type):
@@ -16,6 +17,9 @@ def convert_security_type(security_type):
 out = check_output(['system_profiler', 'SPAirPortDataType', '-detailLevel', 'basic', '-xml'])
 
 system_profiler_output = xmltodict.parse(out)
+wireless_device_info = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['string']
+wireless_mac_address = wireless_device_info[len(wireless_device_info) - 1]
+print wireless_mac_address
 network_info_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict'].keys()
 if 'dict' in network_info_keys:
     network_ap_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['dict']['key']

@@ -33,6 +33,8 @@ def get_mac_net_info():
     out = check_output(['system_profiler', 'SPAirPortDataType', '-detailLevel', 'basic', '-xml'])
 
     system_profiler_output = xmltodict.parse(out)
+    wireless_device_info = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['string']
+    wireless_mac_address = wireless_device_info[len(wireless_device_info) - 1]
     network_info_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict'].keys()
     if 'dict' in network_info_keys:
         network_ap_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['dict']['key']
@@ -42,10 +44,18 @@ def get_mac_net_info():
         bssid = network_ap_values[1]
         security_type = convert_security_type(network_ap_values[5])
 
-        return {'ssid': ssid, 'bssid': bssid, 'security_type': security_type}
+        return {'ssid': ssid, 'bssid': bssid, 'security_type': security_type, 'client_mac': wireless_mac_address}
     else:
         print 'Network disabled or disconnected.'
         return None
+
+def get_win_net_info():
+    print 'TODO'
+    return None
+
+def get_linux_net_info():
+    print 'TODO'
+    return None
 
 # print ni.interfaces()
 for interface in ni.interfaces():
@@ -70,17 +80,18 @@ public_ip = get("http://api.ipify.org").text
 print 'public_ip', public_ip
 
 if platform == 'linux' or platform == 'linux2':
-    print 'Linux TODO'
-    network_info = None
+    network_info = get_linux_net_info()
 elif platform == 'darwin':
     network_info = get_mac_net_info()
 elif platform == 'win32' or platform == 'cygwin':
-    print 'Windows TODO'
-    network_info = None
+    network_info = get_win_net_info()
 
 if network_info is None:
     sys.exit(1)
-payload = {"ssid": network_info['ssid'], "apMac": network_info['bssid'], "clientMac": mac_address, "securityType": network_info['security_type']}
+payload = {"ssid": network_info['ssid'], "apMac": network_info['bssid'], "clientMac": network_info['client_mac'], "securityType": network_info['security_type']}
 headers = {"content-type": "application/x-www-form-urlencoded"}
 req = post(ADD_RECORD_ENDPOINT, urllib.urlencode(payload), headers=headers)
-print req
+if req.status_code is 200:
+    print 'Complete.'
+else:
+    print req.raise_for_status()
