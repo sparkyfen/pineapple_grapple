@@ -1,8 +1,11 @@
 #!/usr/bin/python
 import netifaces as ni
 import urllib
+from sys import platform as platform
 from requests import get
 from requests import post
+from subprocess import check_output
+import xmltodict
 import argparse
 
 URL = 'https://pineapple-grapple.herokuapp.com'
@@ -14,13 +17,43 @@ IP_QUERY_ENDPOINT = URL + '/api/ip/query'
 parser = argparse.ArgumentParser(description="Detect MITM attacks.")
 args = parser.parse_args()
 
+
+def convert_security_type(security_type):
+    security_levels = {
+        "spairport_security_mode_none": "none",
+        "spairport_security_mode_wep": "WEP",
+        "spairport_security_mode_wpa_personal": "WPA Personal",
+        "spairport_security_mode_wpa2_personal": "WPA2 Personal",
+        "spairport_security_mode_wpa2_enterprise": "WPA2 Enterprise"
+    }
+    return security_levels[security_type]
+
+
+def get_mac_net_info():
+    out = check_output(['system_profiler', 'SPAirPortDataType', '-detailLevel', 'basic', '-xml'])
+
+    system_profiler_output = xmltodict.parse(out)
+    network_info_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict'].keys()
+    if 'dict' in network_info_keys:
+        network_ap_keys = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['dict']['key']
+        network_ap_values = system_profiler_output['plist']['array']['dict']['array'][1]['dict']['array']['dict']['dict']['string']
+
+        ssid = network_ap_values[0]
+        bssid = network_ap_values[1]
+        security_type = convert_security_type(network_ap_values[5])
+
+        return {'ssid': ssid, 'bssid': bssid, 'security_type': security_type}
+    else:
+        print 'Network disabled or disconnected.'
+        return None
+
 # print ni.interfaces()
 for interface in ni.interfaces():
     if interface == "lo0":
         continue
     addrs = ni.ifaddresses(interface)
     if ni.AF_INET in addrs:
-        mac_address = addrs[ni.AF_LINK]
+        mac_address = addrs[ni.AF_LINK][0]["addr"]
         internal_address = addrs[ni.AF_INET][0]["addr"]
         broadcast_address = addrs[ni.AF_INET][0]["broadcast"]
         subnet_mask = addrs[ni.AF_INET][0]["netmask"]
@@ -35,7 +68,19 @@ for interface in ni.interfaces():
 # https://github.com/rdegges/ipify-api/issues/1
 public_ip = get("http://api.ipify.org").text
 print 'public_ip', public_ip
-# TODO Get the SSID and access point MAC address that the client is connected to.
-# payload = {"ssid": "", "apMac": "", "clientMac": mac_address}
-# headers = {"content-type": "application/x-www-form-urlencoded"}
-# post(ADD_RECORD_ENDPOINT, urllib.urlencode(payload), headers=headers)
+
+if platform == 'linux' or platform == 'linux2':
+    print 'Linux TODO'
+    network_info = None
+elif platform == 'darwin':
+    network_info = get_mac_net_info()
+elif platform == 'win32' or platform == 'cygwin':
+    print 'Windows TODO'
+    network_info = None
+
+if network_info is None:
+    sys.exit(1)
+payload = {"ssid": network_info['ssid'], "apMac": network_info['bssid'], "clientMac": mac_address, "securityType": network_info['security_type']}
+headers = {"content-type": "application/x-www-form-urlencoded"}
+req = post(ADD_RECORD_ENDPOINT, urllib.urlencode(payload), headers=headers)
+print req

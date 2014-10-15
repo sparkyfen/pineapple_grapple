@@ -9,3 +9,4 @@ Requirements
 * [Pip](http://pip.readthedocs.org/en/latest/installing.html)
 * [netifaces](https://pypi.python.org/pypi/netifaces)
 * [requests](http://docs.python-requests.org/en/latest/)
+* [xmltodict](https://pypi.python.org/pypi/xmltodict)

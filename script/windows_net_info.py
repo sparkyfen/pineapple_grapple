@@ -1,9 +1,10 @@
+#!/usr/bin/python
 """
 This script is designed for use in Windows systems.
 It will do the following:
 1. Execute the command "netsh wlan show interfaces" in the command prompt (cmd)
 2. Store the ouput into the file netinfo.txt
-3. Parse the gerenated 
+3. Parse the gerenated
 """
 
 import subprocess
@@ -15,7 +16,7 @@ def get_net_info(x):
 
 f = open("netinfo.txt", 'w')
 
-#subprocess.Popen(['cmd.exe', '/c', 'netsh wlan show interfaces \> text.txt'])
+# subprocess.Popen(['cmd.exe', '/c', 'netsh wlan show interfaces \> text.txt'])
 p = subprocess.Popen(['cmd.exe', '/c', 'netsh wlan show interfaces'], stdout=f)
 p.wait(100)
 
@@ -30,7 +31,7 @@ authentication = ''
 f2 = open("netinfo.txt", 'r')
 for line in f2:
     line = line.upper().lstrip()
-    #print(l2)
+    # print(l2)
     if line.startswith("PHYSICAL ADDRESS"):
         network_info += line
         physical_addr = get_net_info(line)
@@ -53,7 +54,3 @@ print("CLIENT MAC ADDRESS: " + physical_addr)
 print("SSID: " + ssid)
 print("BSSID: " + bssid)
 print("AUTHENTICATION: " + authentication)
-
-
-
-

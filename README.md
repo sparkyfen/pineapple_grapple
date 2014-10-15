@@ -43,6 +43,9 @@ $ couchdb
 # Set environment variable for development
 $ export NODE_ENV=development
 
+# Install server-side dependencies
+$ npm install
+
 # Don't forget to edit your configuration files at lib/config/env/
 
 # Install client-side dependencies
