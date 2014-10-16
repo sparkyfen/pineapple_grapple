@@ -93,9 +93,11 @@
  * @apiParam {String} ssid The SSID of the access point.
  * @apiParam {String} apMac The access point MAC address.
  * @apiParam {String} clientMac The client MAC address.
+ * @apiParam {String} securityType The type of access point security.
+ * @apiParam {String} publicIP The public IP of the client.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx'
+ *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx'
  *
  * @apiSuccess {Object} response The success response
  * @apiSuccess {String} response.message The success response message.
@@ -107,9 +109,12 @@
  * @apiError (Bad Request 400) MissingSSID The ssid was not in the request.
  * @apiError (Bad Request 400) MissingAPMac The access point mac address was not in the request.
  * @apiError (Bad Request 400) MissingClientMac The client mac address was not in the request.
+ * @apiError (Bad Request 400) MissingSecurityType The security type was not in the request.
+ * @apiError (Bad Request 400) MissingPublicIP The public IP of the client was not in the request.
  * @apiError (Bad Request 400) InvalidSSID The ssid provided is not valid.
  * @apiError (Bad Request 400) InvalidAPMac The access point mac address provided is not valid.
  * @apiError (Bad Request 400) InvalidClientMac The client mac address provided is not valid.
+ * @apiError (Bad Request 400) InvalidPublicIP The public IP of the client provided is not valid.
  * @apiError (Bad Request 400) UpdatesTooQuick The request for a particular access point mac address is too often.
  * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
  *
@@ -125,6 +130,14 @@
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Client MAC address is missing."}
  *
+ * @apiErrorExample Error-Response (Missing Security Type)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Security type is missing."}
+ *
+ * @apiErrorExample Error-Response (Missing Public IP)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Public IP address is missing."}
+ *
  * @apiErrorExample Error-Response (Invalid AP Mac)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid AP Mac address."}
@@ -132,6 +145,10 @@
  * @apiErrorExample Error-Response (Invalid Client Mac)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid client Mac address."}
+ *
+ * @apiErrorExample Error-Response (Invalid Public IP)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid public IP address."}
  *
  * @apiErrorExample Error-Response (Updates Too Quick)
  *     HTTP/1.1 400 Bad Request

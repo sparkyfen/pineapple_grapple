@@ -46,7 +46,7 @@ $ export NODE_ENV=development
 # Install server-side dependencies
 $ npm install
 
-# Don't forget to edit your configuration files at lib/config/env/
+# Don't forget to edit your configuration files at server/config/environment
 
 # Install client-side dependencies
 $ bower install

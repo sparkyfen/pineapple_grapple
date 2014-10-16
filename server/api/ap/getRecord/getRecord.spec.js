@@ -16,7 +16,9 @@ describe('POST /api/ap/getRecord', function() {
       'updateTime':[1412020518442],
       'clientMac':['84:38:35:4d:c0:a6'],
       'apMac':'40:16:7e:31:2b:2d',
-      'ssid':'cartel'
+      'ssid':'cartel',
+      'securityType': 'WPA2 Personal',
+      'publicIP': '207.17.4.13'
     };
     db.insert(nodes, uuid.v4(), node, function (error) {
       if (error) {

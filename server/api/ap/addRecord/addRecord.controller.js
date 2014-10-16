@@ -11,6 +11,8 @@ exports.index = function(req, res) {
   var ssid = req.body.ssid;
   var apMac = req.body.apMac;
   var clientMac = req.body.clientMac;
+  var securityType = req.body.securityType;
+  var publicIP = req.body.publicIP;
   var node = {};
   if(validator.isNull(ssid)) {
     return res.json(400, {message: 'SSID is missing.'});
@@ -21,11 +23,20 @@ exports.index = function(req, res) {
   if(validator.isNull(clientMac)) {
     return res.json(400, {message: 'Client MAC address is missing.'});
   }
+  if(validator.isNull(securityType)) {
+    return res.json(400, {message: 'Security type is missing.'});
+  }
+  if(validator.isNull(publicIP)) {
+    return res.json(400, {message: 'Public IP address is missing.'});
+  }
   if(!validator.isMacAddress(apMac)) {
     return res.json(400, {message: 'Invalid AP Mac address.'});
   }
   if(!validator.isMacAddress(clientMac)) {
     return res.json(400, {message: 'Invalid client Mac address.'});
+  }
+  if(!validator.isIP(publicIP, 4)) {
+    return res.json(400, {message: 'Invalid public IP address.'});
   }
   // TODO Add some searching via Google GeoLocation API
   db.searchByApMac(apMac, function (error, reply) {
@@ -39,7 +50,9 @@ exports.index = function(req, res) {
         updateTime: [Date.now(Date.UTC())],
         clientMac: [clientMac],
         apMac: apMac,
-        ssid: ssid
+        ssid: ssid,
+        securityType: securityType,
+        publicIP: publicIP
       };
       db.insert(nodes, uuid.v4(), node, function (error) {
         if(error) {

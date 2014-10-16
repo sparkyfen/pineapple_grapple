@@ -27,7 +27,7 @@ describe('POST /api/ap/addRecord', function() {
   it('should respond with JSON array', function(done) {
     request(app)
       .post('/api/ap/addRecord')
-      .send({clientMac: '84:38:35:4d:c0:a6', apMac: '40:16:7e:31:2b:2d', ssid: 'cartel'})
+      .send({clientMac: '84:38:35:4d:c0:a6', apMac: '40:16:7e:31:2b:2d', ssid: 'cartel', securityType: 'WPA2 Personal', publicIP: '207.17.4.13'})
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {

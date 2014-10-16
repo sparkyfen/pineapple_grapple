@@ -88,7 +88,7 @@ elif platform == 'win32' or platform == 'cygwin':
 
 if network_info is None:
     sys.exit(1)
-payload = {"ssid": network_info['ssid'], "apMac": network_info['bssid'], "clientMac": network_info['client_mac'], "securityType": network_info['security_type']}
+payload = {"ssid": network_info['ssid'], "apMac": network_info['bssid'], "clientMac": network_info['client_mac'], "securityType": network_info['security_type'], "publicIP": public_ip}
 headers = {"content-type": "application/x-www-form-urlencoded"}
 req = post(ADD_RECORD_ENDPOINT, urllib.urlencode(payload), headers=headers)
 if req.status_code is 200:
