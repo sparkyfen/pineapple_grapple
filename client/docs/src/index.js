@@ -14,28 +14,34 @@
  *
  * @apiDescription Queries the IPv4 addresses of a given domain.
  *
- * @apiParam {String} domain The FQDN to query.
+ * @apiParam {String[]} domain The FQDN to query.
  *
  * @apiExample CURL example:
  *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
  *
- * @apiSuccess {String[]} IPs The list of IPv4 addresses for the requested domain.
+ * @apiSuccess {Array} domainList The records for the requested domains.
+ * @apiSuccess {Array} domainList.addresses The list of IPv4 addresses for the requested domain.
+ * @apiSuccess {String} domainList.domain The domain requested.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
- *     ["74.125.228.103","74.125.228.104","74.125.228.105","74.125.228.110","74.125.228.96","74.125.228.97","74.125.228.98","74.125.228.99","74.125.228.100","74.125.228.101","74.125.228.102"]
+ *     [{"domain": "google.com", addresses: ["74.125.228.103","74.125.228.104","74.125.228.105","74.125.228.110","74.125.228.96","74.125.228.97","74.125.228.98","74.125.228.99","74.125.228.100","74.125.228.101","74.125.228.102"]}]
  *
- * @apiError (Bad Request 400) MissingDomain The domain was not in the request.
+ * @apiError (Bad Request 400) MissingDomains The domain(s) was not in the request.
  * @apiError (Bad Request 400) InvalidDomain The domain is not a valid domain.
  * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
  *
- * @apiErrorExample Error-Response (Missing Domain)
+ * @apiErrorExample Error-Response (Missing Domain(s))
  *     HTTP/1.1 400 Bad Request
- *     {"message":"Missing domain."}
+ *     {"message":"Missing domain(s)."}
  *
  * @apiErrorExample Error-Response (Invalid Domain)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid domain."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain(s))
+ *     HTTP/1.1 400 Bad Request
+ *    {"message": "One or more domains is invalid."}
  *
  * @apiErrorExample Error-Response (Internal Server Error)
  *     HTTP/1.1 500 Internal Server Error
@@ -67,13 +73,17 @@
  * @apiError (Bad Request 400) InvalidIP The IP address is not a valid IP address.
  * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
  *
- * @apiErrorExample Error-Response (Missing IP)
+ * @apiErrorExample Error-Response (Missing IP(s))
  *     HTTP/1.1 400 Bad Request
- *     {"message":"Missing IP address."}
+ *     {"message":"Missing IP address(es)."}
  *
  * @apiErrorExample Error-Response (Invalid IP)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid IP v4 address."}
+ *
+ * @apiErrorExample Error-Response (Invalid IP(s))
+ *     HTTP/1.1 400 Bad Request
+ *    {"message": "One or more IP addresses is invalid."}
  *
  * @apiErrorExample Error-Response (Internal Server Error)
  *     HTTP/1.1 500 Internal Server Error
@@ -95,9 +105,10 @@
  * @apiParam {String} clientMac The client MAC address.
  * @apiParam {String} securityType The type of access point security.
  * @apiParam {String} publicIP The public IP of the client.
+ * @apiParam {String[]} hops The traceroute list of IPs to 8.8.8.8.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx'
+ *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx'
  *
  * @apiSuccess {Object} response The success response
  * @apiSuccess {String} response.message The success response message.
@@ -111,10 +122,12 @@
  * @apiError (Bad Request 400) MissingClientMac The client mac address was not in the request.
  * @apiError (Bad Request 400) MissingSecurityType The security type was not in the request.
  * @apiError (Bad Request 400) MissingPublicIP The public IP of the client was not in the request.
+ * @apiError (Bad Request 400) MissingTracerouteHops The list of traceroute hops was not in the request.
  * @apiError (Bad Request 400) InvalidSSID The ssid provided is not valid.
  * @apiError (Bad Request 400) InvalidAPMac The access point mac address provided is not valid.
  * @apiError (Bad Request 400) InvalidClientMac The client mac address provided is not valid.
  * @apiError (Bad Request 400) InvalidPublicIP The public IP of the client provided is not valid.
+ * @apiError (Bad Request 400) InvalidTracerouteHops The list of traceroute hops is not valid.
  * @apiError (Bad Request 400) UpdatesTooQuick The request for a particular access point mac address is too often.
  * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
  *
@@ -138,6 +151,10 @@
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Public IP address is missing."}
  *
+ * @apiErrorExample Error-Response (Missing Traceroute Hops)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Traceroute hops is missing."}
+ *
  * @apiErrorExample Error-Response (Invalid AP Mac)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid AP Mac address."}
@@ -149,6 +166,10 @@
  * @apiErrorExample Error-Response (Invalid Public IP)
  *     HTTP/1.1 400 Bad Request
  *     {"message":"Invalid public IP address."}
+ *
+ * @apiErrorExample Error-Response (Invalid Traceroute Hops)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid Traceroute hops list."}
  *
  * @apiErrorExample Error-Response (Updates Too Quick)
  *     HTTP/1.1 400 Bad Request
@@ -170,7 +191,6 @@
  * @apiDescription Gets an access point record from the database given it's MAC.
  *
  * @apiParam {String} apMac The access point MAC address.
- * @apiParam {String} clientMac The client MAC address.
  *
  * @apiExample CURL example:
  *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/getRecord' -d 'apMac=xx:xx:xx:xx:xx:xx'
@@ -180,10 +200,12 @@
  * @apiSuccess {String[]} node.clientMac The list of client mac addresses who have updated this record.
  * @apiSuccess {String} node.apMac The access point mac address.
  * @apiSuccess {String} node.ssid The SSID of the access point.
+ * @apiSuccess {String} node.securityType The type of access point security.
+ * @apiSuccess {String} node.publicIP The public IP of the client.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
- *     {"updateTime":[1412020518442],"clientMac":["xx:xx:xx:xx:xx:xx"],"apMac":"xx:xx:xx:xx:xx:xx","ssid":"mySSIDisSoCool"}
+ *     {"updateTime":[1412020518442],"clientMac":["xx:xx:xx:xx:xx:xx"],"apMac":"xx:xx:xx:xx:xx:xx","ssid":"mySSIDisSoCool", "securityType": "WPA2 Enterprise", "publicIP": "xxx.xxx.xxx.xxx"}
  *
  * @apiError (Bad Request 400) MissingAPMac The access point mac address was not in the request.
  * @apiError (Bad Request 400) InvalidAPMac The access point mac address provided is not valid.
