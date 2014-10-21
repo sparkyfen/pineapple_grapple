@@ -13,6 +13,7 @@ exports.index = function(req, res) {
   var clientMac = req.body.clientMac;
   var securityType = req.body.securityType;
   var publicIP = req.body.publicIP;
+  var hops = req.body.hops;
   var node = {};
   if(validator.isNull(ssid)) {
     return res.json(400, {message: 'SSID is missing.'});
@@ -29,6 +30,9 @@ exports.index = function(req, res) {
   if(validator.isNull(publicIP)) {
     return res.json(400, {message: 'Public IP address is missing.'});
   }
+  if(validator.isNull(hops)) {
+    return res.json(400, {message: 'Traceroute hops is missing.'});
+  }
   if(!validator.isMacAddress(apMac)) {
     return res.json(400, {message: 'Invalid AP Mac address.'});
   }
@@ -37,6 +41,9 @@ exports.index = function(req, res) {
   }
   if(!validator.isIP(publicIP, 4)) {
     return res.json(400, {message: 'Invalid public IP address.'});
+  }
+  if(!isValidTracerouteHops(hops)) {
+    return res.json(400, {message: 'Invalid Traceroute hops list.'});
   }
   // TODO Add some searching via Google GeoLocation API
   db.searchByApMac(apMac, function (error, reply) {
@@ -52,7 +59,8 @@ exports.index = function(req, res) {
         apMac: apMac,
         ssid: ssid,
         securityType: securityType,
-        publicIP: publicIP
+        publicIP: publicIP,
+        hops: hops
       };
       db.insert(nodes, uuid.v4(), node, function (error) {
         if(error) {
@@ -92,3 +100,15 @@ exports.index = function(req, res) {
 validator.extend('isMacAddress', function (str) {
   return str.match(/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/) !== null ? true : false;
 });
+
+function isValidTracerouteHops(hops) {
+  if(!hops instanceof Array) {
+    return false;
+  }
+  for (var i = 0; i < hops.length; i++) {
+    if(!validator.isNull(hops[i]) && !validator.isIP(hops[i], 4)) {
+      return false;
+    }
+  }
+  return true;
+}
