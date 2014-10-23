@@ -50,6 +50,104 @@
  */
 
 /**
+ * @api {post} /api/dns/spf SPF
+ * @apiVersion 1.0.0
+ * @apiName SPF
+ * @apiGroup DNS
+ * @apiPermission public
+ *
+ * @apiDescription Queries the requested domain and returns the SPF.
+ *
+ * @apiParam {String} domain The FQDN to query.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *
+ * @apiSuccess {String} spf The SPF of the requested domain.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {"spf":"v=spf1 include:_spf.google.com ip4:216.73.93.70/31 ip4:216.73.93.72/31 ~all"}
+ *
+ * @apiError (Bad Request 400) MissingDomains The domain(s) was not in the request.
+ * @apiError (Bad Request 400) InvalidDomain The domain is not a valid domain.
+ * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
+ *
+ * @apiErrorExample Error-Response (Missing Domain(s))
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Missing domain from request."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid domain in request."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain(s))
+ *     HTTP/1.1 400 Bad Request
+ *    {"message": "One or more domains is invalid."}
+ *
+ * @apiErrorExample Error-Response (Internal Server Error)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"An error occured querying the DNS record."}
+ *
+ */
+
+/**
+ * @api {post} /api/dns/soa SOA
+ * @apiVersion 1.0.0
+ * @apiName SOA
+ * @apiGroup DNS
+ * @apiPermission public
+ *
+ * @apiDescription Queries the requested domain and returns the SOA.
+ *
+ * @apiParam {String} domain The FQDN to query.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *
+ * @apiSuccess {String} name The domain name.
+ * @apiSuccess {Number} type The domain type.
+ * @apiSuccess {Number} class The domain class.
+ * @apiSuccess {Number} ttl The request TTL.
+ * @apiSuccess {String} primary The primary authoritative nameserver for the domain.
+ * @apiSuccess {String} admin The administrative domain.
+ * @apiSuccess {Number} serial The revision number of this zone file
+ * @apiSuccess {Number} refresh The time, in seconds, a secondary DNS server waits before querying the primary DNS server's SOA record to check for changes.
+ * @apiSuccess {Number} retry The time, in seconds, a secondary server waits before retrying a failed zone transfer. Normally, the retry time is less than the refresh time. The default value is 600.
+ * @apiSuccess {Number} expiration The time, in seconds, that a secondary server will keep trying to complete a zone transfer. If this time expires prior to a successful zone transfer, the secondary server will expire its zone file. The default value is 86,400.
+ * @apiSuccess {Number} minimum The minimum time-to-live value applies to all resource records in the zone file. The default value is 3,600.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {"name":"google.com","type":6,"class":1,"ttl":21599,"primary":"ns1.google.com","admin":"dns-admin.google.com","serial":2014101500,"refresh":7200,"retry":1800,"expiration":1209600,"minimum":300}
+ *
+ * @apiError (Bad Request 400) MissingDomains The domain(s) was not in the request.
+ * @apiError (Bad Request 400) InvalidDomain The domain is not a valid domain.
+ * @apiError (Internal Server Error 500) DNSTimedOut The DNS request timed out.
+ * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
+ *
+ * @apiErrorExample Error-Response (Missing Domain(s))
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Missing domain from request."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid domain in request."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain(s))
+ *     HTTP/1.1 400 Bad Request
+ *    {"message": "One or more domains is invalid."}
+ *
+ * @apiErrorExample Error-Response (DNS Request Timed Out)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"DNS request timed out."}
+ *
+ * @apiErrorExample Error-Response (Internal Server Error)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"An error occured querying the DNS record."}
+ */
+
+/**
  * @api {post} /api/ip/query Query
  * @apiVersion 1.0.0
  * @apiName Query

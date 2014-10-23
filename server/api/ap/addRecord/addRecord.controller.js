@@ -81,6 +81,7 @@ exports.index = function(req, res) {
         if(node.ssid !== ssid) {
           // TODO We have a change in SSID for a particular access point mac address.
         }
+        // TODO We need to implement the check for the 3-strike rule.
         db.insert(nodes, node._id, node, function (error) {
           if(error) {
             console.log(error);

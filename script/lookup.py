@@ -1,12 +1,15 @@
 #!/usr/bin/python
 import dns.resolver
 import re
+import api
+from requests import post
 from netaddr import IPNetwork, IPAddress
 
 
 class Lookup(object):
     """docstring for Lookup"""
     def __init__(self):
+        self.api = api.API()
         pass
 
     def __str__(self):
@@ -18,7 +21,7 @@ class Lookup(object):
             soa_record = rdata.to_text()
             return soa_record.split('. ')[0]
 
-    def get_spf(self, domain):
+    def get_local_spf(self, domain):
         RE_MODIFIER = re.compile(r'^([a-zA-Z]+)=')
         RESULTS = {'+': 'pass', '-': 'deny', '?': 'unknown', 'pass': 'pass', 'deny': 'deny', 'unknown': 'unknown'}
         resolver = dns.resolver.Resolver()
@@ -29,6 +32,9 @@ class Lookup(object):
         for rdata in answers:
             spf_record = rdata.to_text()
             return spf_record
+
+    def get_spf(self, domain):
+        return self.api.get_spf(domain)
 
     def get_ip_networks(self, spf_record):
         ip_network_list = []
