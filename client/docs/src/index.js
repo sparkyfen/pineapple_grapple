@@ -17,7 +17,7 @@
  * @apiParam {String[]} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {Array} domainList The records for the requested domains.
  * @apiSuccess {Array} domainList.addresses The list of IPv4 addresses for the requested domain.
@@ -61,7 +61,7 @@
  * @apiParam {String} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {String} spf The SPF of the requested domain.
  *
@@ -103,7 +103,7 @@
  * @apiParam {String} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {String} name The domain name.
  * @apiSuccess {Number} type The domain type.
@@ -148,6 +148,26 @@
  */
 
 /**
+ * @api {post} /api/dns/commonDomains CommonDomains
+ * @apiVersion 1.0.0
+ * @apiName CommonDomains
+ * @apiGroup DNS
+ * @apiPermission public
+ *
+ * @apiDescription Returns a list of common domains used to check for MITM attacks.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/commonDomains'
+ *
+ * @apiSuccess {String[]} domains The list of common domains.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     ["google.com", "chase.com", "wellsfargo.com", "bankofamerica.com"]
+ *
+ */
+
+/**
  * @api {post} /api/ip/query Query
  * @apiVersion 1.0.0
  * @apiName Query
@@ -159,7 +179,7 @@
  * @apiParam {String} ip The IP v4 address.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ip/query' -d 'ip=74.125.228.103'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ip/query' -d 'ip=74.125.228.103'
  *
  * @apiSuccess {String[]} Domains The list of domains for a requested IPv4 address.
  *
@@ -206,7 +226,7 @@
  * @apiParam {String[]} hops The traceroute list of IPs to 8.8.8.8.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx'
  *
  * @apiSuccess {Object} response The success response
  * @apiSuccess {String} response.message The success response message.
@@ -291,7 +311,7 @@
  * @apiParam {String} apMac The access point MAC address.
  *
  * @apiExample CURL example:
- *      curl -X POST 'http://pineapple-grapple.herokuapp.com/api/ap/getRecord' -d 'apMac=xx:xx:xx:xx:xx:xx'
+ *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ap/getRecord' -d 'apMac=xx:xx:xx:xx:xx:xx'
  *
  * @apiSuccess {Object} node The record from the database
  * @apiSuccess {Number[]} node.updateTime The list of times the record has been updated. Each value is in millisecond UTC.
