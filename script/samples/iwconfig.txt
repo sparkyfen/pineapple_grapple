@@ -1,0 +1,13 @@
+lo        no wireless extensions.
+
+eth0      no wireless extensions.
+
+wlan0     IEEE 802.11bg  ESSID:"asu"  
+          Mode:Managed  Frequency:2.412 GHz  Access Point: C8:F9:F9:28:26:C0   
+          Bit Rate=54 Mb/s   Tx-Power=20 dBm   
+          Retry  long limit:7   RTS thr:off   Fragment thr:off
+          Power Management:off
+          Link Quality=70/70  Signal level=-36 dBm  
+          Rx invalid nwid:0  Rx invalid crypt:0  Rx invalid frag:0
+          Tx excessive retries:0  Invalid misc:0   Missed beacon:0
+
