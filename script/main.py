@@ -13,6 +13,7 @@ import argparse
 import network_info
 from operator import itemgetter
 import json
+import sys
 
 parser = argparse.ArgumentParser(description='Detect MITM attacks.')
 parser.add_argument('-v', '--verbose', help='Enable a more verbose output.')
@@ -45,6 +46,7 @@ if ap_record is not None:
         print 'Public IPs of known network are different.'
         print 'Current IP address is ' + public_ip + ' and recorded address is ' + ap_record['publicIP']
     else:
+
         hops = net_info.calculate_hops()
         hop_difference = []
         for x in hops:

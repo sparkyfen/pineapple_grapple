@@ -3,7 +3,7 @@ import urllib
 from requests import get
 from requests import post
 
-URL = 'https://pineapple-grapple.herokuapp.com'
+URL = 'https://pagrapple.com'
 # URL = 'http://localhost:9000'
 ADD_RECORD_ENDPOINT = URL + '/api/ap/addRecord'
 GET_RECORD_ENDPOINT = URL + '/api/ap/getRecord'
