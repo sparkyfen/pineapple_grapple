@@ -29,6 +29,7 @@ Dependencies
 * [NodeJS](http://nodejs.org/)
 * [CouchDB](http://couchdb.apache.org/)
 * [Redis (For production)](http://redis.io/)
+* WHOIS Command
 
 Development
 -----------

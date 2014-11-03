@@ -3,11 +3,12 @@ import urllib
 from requests import get
 from requests import post
 
-URL = 'https://pineapple-grapple.herokuapp.com'
+URL = 'https://pagrapple.com'
 # URL = 'http://localhost:9000'
 ADD_RECORD_ENDPOINT = URL + '/api/ap/addRecord'
 GET_RECORD_ENDPOINT = URL + '/api/ap/getRecord'
 DNS_QUERY_ENDPOINT = URL + '/api/dns/query'
+WHOIS_ENDPOINT = URL + '/api/dns/whois'
 GET_SOA_ENDPOINT = URL + '/api/dns/soa'
 GET_SPF_ENDPOINT = URL + '/api/dns/spf'
 IP_QUERY_ENDPOINT = URL + '/api/ip/query'
@@ -71,3 +72,10 @@ class API(object):
         dns_check_req = post(DNS_QUERY_ENDPOINT, urllib.urlencode(
             dns_check_payload, True), headers=headers)
         return dns_check_req
+
+    def reverse_ip(self, ip):
+        reverse_ip_payload = {"ip": ip}
+        headers = {"content-type": "application/x-www-form-urlencoded"}
+        reverse_ip_req = post(WHOIS_ENDPOINT, urllib.urlencode(
+            reverse_ip_payload, True), headers=headers)
+        return reverse_ip_req
