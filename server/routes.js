@@ -15,9 +15,9 @@ module.exports = function(app) {
   app.use('/api/dns/whois', require('./api/dns/whois'));
   app.use('/api/dns/soa', require('./api/dns/soa'));
   app.use('/api/dns/spf', require('./api/dns/spf'));
+  app.use('/api/dns/validate', require('./api/dns/validate'));
   app.use('/api/dns/commonDomains', require('./api/dns/commonDomains'));
   app.use('/api/ip/query', require('./api/ip/query'));
-  app.use('/api/ip/spfToNetworks', require('./api/ip/spfToNetworks'));
 
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth|components|app|bower_components|assets)/*')

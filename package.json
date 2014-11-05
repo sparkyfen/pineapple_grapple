@@ -20,6 +20,7 @@
     "native-dns": "^0.7.0",
     "node-uuid": "^1.4.1",
     "node-whois": "^2.1.0",
+    "range_check": "0.0.4",
     "serve-favicon": "~2.0.1",
     "validator": "^3.19.0"
   },
