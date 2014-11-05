@@ -45,6 +45,9 @@ exports.index = function(req, res) {
   if(validator.isNull(domain)) {
     return res.json(400, {message: 'Missing domain name.'});
   }
+  if(!validator.isFQDN(domain)) {
+    return res.json(400, {message: 'Invalid domain name.'});
+  }
   if(!(ips instanceof Array) && typeof(ips) !== 'string') {
     return res.json(400, {message: 'IP addresses must be a list or string.'});
   }

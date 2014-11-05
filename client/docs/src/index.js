@@ -17,7 +17,7 @@
  * @apiParam {String[]} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pagrapple.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {Array} domainList The records for the requested domains.
  * @apiSuccess {Array} domainList.addresses The list of IPv4 addresses for the requested domain.
@@ -61,7 +61,7 @@
  * @apiParam {String} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pagrapple.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {String} spf The SPF of the requested domain.
  *
@@ -91,6 +91,7 @@
  *
  */
 
+
 /**
  * @api {post} /api/dns/soa SOA
  * @apiVersion 1.0.0
@@ -103,7 +104,7 @@
  * @apiParam {String} domain The FQDN to query.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/query' -d 'domain=google.com'
+ *      curl -X POST 'https://pagrapple.com/api/dns/query' -d 'domain=google.com'
  *
  * @apiSuccess {String} name The domain name.
  * @apiSuccess {Number} type The domain type.
@@ -157,13 +158,92 @@
  * @apiDescription Returns a list of common domains used to check for MITM attacks.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/dns/commonDomains'
+ *      curl -X POST 'https://pagrapple.com/api/dns/commonDomains'
  *
  * @apiSuccess {String[]} domains The list of common domains.
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  *     ["google.com", "chase.com", "wellsfargo.com", "bankofamerica.com"]
+ *
+ */
+
+/**
+ * @api {post} /api/dns/validate Validate
+ * @apiVersion 1.0.0
+ * @apiName Validate
+ * @apiGroup DNS
+ * @apiPermission public
+ *
+ * @apiDescription Validates the requested IP addresses with the given domain.
+ *
+ * @apiParam {String} domain The FQDN validate against.
+ * @apiParam {String[]} ips The list of one or more IP addresses.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'https://pagrapple.com/api/dns/validate' -d 'domain=google.com&ips=208.117.233.84'
+ *
+ * @apiSuccess {String} message The successful message response.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {"message":"IP address(es) is/are valid."}
+ *
+ * @apiError (Bad Request 400) MissingDomain The domain was not in the request.
+ * @apiError (Bad Request 400) MissingIPAddressList The list of IP addresses was not in the request.
+ * @apiError (Bad Request 400) InvalidIPListType The list of IP addresses must be a string of one of an array of more than one.
+ * @apiError (Bad Request 400) TooManyIPs The list of IP addresses is longer than 50.
+ * @apiError (Bad Request 400) InvalidDomain The domain is not a valid domain.
+ * @apiError (Bad Request 400) InvalidIPs One of more IP addresses was not a valid IP v4 address.
+ * @apiError (Bad Request 400) PrivateOrLoopbackIP One of more IP addresses was either a private IP address or a loopback address.
+ * @apiError (Bad Request 400) IPNotInRange One of more IP addresses was not in the range found for the requested domain.
+ * @apiError (Bad Request 400) DomainNotInList The requested domain is not on the allowed list.
+ * @apiError (Bad Request 400) DomainNetworkOwnerMismatch The requested domain and the domain owner found do not match what was expected.
+ * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
+ *
+ * @apiErrorExample Error-Response (Missing Domain)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Missing domain name."}
+ *
+ * @apiErrorExample Error-Response (Missing IP Address List)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Missing IP address list."}
+ *
+ * @apiErrorExample Error-Response (Invalid Domain)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid domain name."}
+ *
+ * @apiErrorExample Error-Response (Invalid IP List Type)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"IP addresses must be a list or string."}
+ *
+ * @apiErrorExample Error-Response (Too Many IPs)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Too many IP addresses to check."}
+ *
+ * @apiErrorExample Error-Response (Invalid IPs)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"One or more IP addresses was invalid."}
+ *
+ * @apiErrorExample Error-Response (Private Or Loopback IP)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"One or more IP addresses requested is a private/loopback IP address."}
+ *
+ * @apiErrorExample Error-Response (IP Not In Range)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"One IP address was not in the list of ip ranges allowed."}
+ *
+ * @apiErrorExample Error-Response (Domain Not In List)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"The requested domain is not in the allowed list."}
+ *
+ * @apiErrorExample Error-Response (Domain Network Owner Mismatch)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"The domain and network owner do not match."}
+ *
+ * @apiErrorExample Error-Response (Internal Server Error)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"Issue validating IP addresses."}
  *
  */
 
@@ -179,7 +259,7 @@
  * @apiParam {String} ip The IP v4 address.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ip/query' -d 'ip=74.125.228.103'
+ *      curl -X POST 'https://pagrapple.com/api/ip/query' -d 'ip=74.125.228.103'
  *
  * @apiSuccess {String[]} Domains The list of domains for a requested IPv4 address.
  *
@@ -226,7 +306,7 @@
  * @apiParam {String[]} hops The traceroute list of IPs to 8.8.8.8.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx'
+ *      curl -X POST 'https://pagrapple.com/api/ap/addRecord' -d 'ssid=foobar&apMac=xx:xx:xx:xx:xx:xx&clientMac=xx:xx:xx:xx:xx:xx&securityType=WPA2%20Personal&publicIP=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx&hops=xxx.xxx.xxx.xxx'
  *
  * @apiSuccess {Object} response The success response
  * @apiSuccess {String} response.message The success response message.
@@ -311,7 +391,7 @@
  * @apiParam {String} apMac The access point MAC address.
  *
  * @apiExample CURL example:
- *      curl -X POST 'https://pineapple-grapple.herokuapp.com/api/ap/getRecord' -d 'apMac=xx:xx:xx:xx:xx:xx'
+ *      curl -X POST 'https://pagrapple.com/api/ap/getRecord' -d 'apMac=xx:xx:xx:xx:xx:xx'
  *
  * @apiSuccess {Object} node The record from the database
  * @apiSuccess {Number[]} node.updateTime The list of times the record has been updated. Each value is in millisecond UTC.
