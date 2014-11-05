@@ -14,6 +14,7 @@ import network_info
 from operator import itemgetter
 import json
 import sys
+from netaddr import IPAddress
 
 parser = argparse.ArgumentParser(description='Detect MITM attacks.')
 parser.add_argument('-v', '--verbose', help='Enable a more verbose output.')
@@ -56,16 +57,12 @@ if ap_record is not None:
             print 'Traceroute hops are different.'
             print 'Current hops are ' + hops + ' and recorded hops are ' + ap_record['hops']
         else:
-            dns_check_req = api.dns_query(net_info.get_common_domains())
-            if dns_check_req.status_code is 200:
-                # TODO Compare each domain with their addresses.
-                address_list = dns_check_req.json()
-                print json.dumps(address_list)
-                local_address_list = net_info.lookup_domains()
-                print json.dumps(local_address_list)
-            else:
-                print dns_check_req.json()['message']
-                print dns_check_req.raise_for_status()
+            local_address_list = net_info.lookup_domains()
+            print json.dumps(local_address_list)
+            for domain in local_address_list:
+                for ip_address in domain['addresses']:
+                    if IPAddress(ip_address).is_private():
+                        print "Warning: DNS Spoofing possible. Domain: " + domain + " returned a private IP address: " + ip_address
 else:
     hops = net_info.calculate_hops()
     # TODO No record in DB so we need to do DNS lookups and cert validation.
