@@ -11,12 +11,12 @@ Authors
 
 Demo
 -----
-[http://pineapple-grapple.herokuapp.com/](http://pineapple-grapple.herokuapp.com/)
+[https://pagrapple.com/](https://pagrapple.com/)
 
 API Docs
 --------
 * [Code](/client/docs/)
-* [Output](http://pineapple-grapple.herokuapp.com/docs/)
+* [Output](https://pagrapple.com/docs/)
 
 
 TODO
