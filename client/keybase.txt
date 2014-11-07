@@ -1,0 +1,72 @@
+==================================================================
+https://keybase.io/brutalhonesty
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://pagrapple.com
+  * I am brutalhonesty (https://keybase.io/brutalhonesty) on keybase.
+  * I have a public key with fingerprint 1EE0 AFF2 29DD 0485 CCB3  E456 2A3C 4FAC 130A AD8C
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "1ee0aff229dd0485ccb3e4562a3c4fac130aad8c",
+            "host": "keybase.io",
+            "key_id": "2a3c4fac130aad8c",
+            "uid": "b60ac846f1d457aa60151ab6998d8000",
+            "username": "brutalhonesty"
+        },
+        "revoke": {
+            "sig_ids": [
+                "1c91c9b7c8c5a356dfaa8dc792f6130248c2241181e8be3386ac5965b59d99ff0f"
+            ]
+        },
+        "service": {
+            "hostname": "pagrapple.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1415123306,
+    "expire_in": 157680000,
+    "prev": "788aed78ea5cd60d2807e1d5a8b681669484dc5ee7542647fa3fd26c3c2f7bd5",
+    "seqno": 21,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v1.1.3
+Comment: https://keybase.io/crypto
+
+yMIxAnicbZJrSBVBFMevt5ISrCyKoseHKYlIap+zs2tSCdITLNPCLG+zM7P3bl7v
+Xnf33rKSoKCyF+WHghKkwoKSoqDXh95hofSWiqALvVD7EvagdzQr9S0YGOac//zO
+/xzOrdwBoZysz5eKpixsyR6b1Xm9IhUqr8xbswGYDq0HxgZQw/ovy05EmZt07YQP
+DCAyJmDLkiSdUkFBKiGmzBQVSlgmioWJKAsYU0RAAYg5XvCDY0zssem2w2P8EbEp
+j/5Hn+pPmFDABCnQEqmiahhDQVRFbEJdRxQJghAIPeYmcC0L1G7Kx/GYk2CeXw8a
+CoDL0k4NC3x7dpSX8oBRBUSi82NqBBEVyyqkFsaIEk2XLMgNSAoikqSIIhIZMpks
+I4iJqkPVVHWq65YlWGAVZ/OyaZv0w4Pe/lpI4qiLk8k4m06cWu4u6Tq+Q5w4T8V8
+P+kZgS2/Phlo1zIz8pcSMe0E5aPlP9LM9WwnAQyRK4lvB1hR4W1LsizAAsDWJW2X
+RexAoWowmIIQ1GFpjtQQwoxqiGGVUChQCQkaE6mKkQmRCKGuIIUSlTFNVSSoaBaW
+LSpBIhPJ0kyqgqCvuoQDDEnkPnGUM/noEthPuQw03Li2cmAoKyeUPSgcbEcoZ8jw
+fzvzatLg0LYHZVuwt/GFlpk0uu3QupdHf7ffjZGlFZ3jFskdVwZPGQPjdfmFXwdF
+7qxoLb53pSO8p3x56Lbxunpyc48ZXt1e0tl1pOLAnAWtS6oams6OGFL6ZmrLqmd9
+vTPKMyfCvcfeGqPmj3z/snVk0Zl72adP1f64cBBO+PS0tLi6ZHH+vsjPq4U788bf
+v7YgfFCY2bSyfTOOhkdN25Wp6N26vGZe2ax3XTuaL7YZVexw6cnnVwfMrTwfG9bb
+/ai6rS98fXvJtjkXw43H9y7LhFJ358V/5W6yHj+8/X13dqbrXOPsXR/zu242Tx1a
+2PctWny55UNlQ49yypkodXeklzxprF+/v+lL7qu82j/5iC9Q
+=pGni
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/brutalhonesty
+
+==================================================================
+

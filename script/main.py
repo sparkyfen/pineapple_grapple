@@ -46,6 +46,13 @@ if ap_record is not None:
     elif ap_record['publicIP'] != public_ip:
         print 'Public IPs of known network are different.'
         print 'Current IP address is ' + public_ip + ' and recorded address is ' + ap_record['publicIP']
+        reverse_ip_lookup_req = api.reverse_ip(public_ip)
+        reverse_ip_lookup = reverse_ip_lookup_req.json()
+        if(reverse_ip_lookup['isWirelessProvider']):
+            print 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they ARE a US cellphone wireless provider.'
+            print 'This connection could potentially be routed through a 3g/4g SIM card.'
+        else:
+            print 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they are not a US cellphone wireless provider.'
     else:
 
         hops = net_info.calculate_hops()
@@ -74,5 +81,4 @@ else:
     if add_record_req.status_code is 200:
         print 'Complete.'
     else:
-        print add_record_req.json()['message']
         print add_record_req.raise_for_status()

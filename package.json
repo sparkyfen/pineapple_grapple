@@ -8,7 +8,6 @@
     "colors": "^0.6.2",
     "composable-middleware": "^0.3.0",
     "compression": "~1.0.1",
-    "connect-mongo": "^0.4.1",
     "cookie-parser": "~1.0.1",
     "ejs": "~0.8.4",
     "errorhandler": "~1.0.0",
@@ -20,6 +19,8 @@
     "nano": "^5.11.2",
     "native-dns": "^0.7.0",
     "node-uuid": "^1.4.1",
+    "node-whois": "^2.1.0",
+    "range_check": "0.0.4",
     "serve-favicon": "~2.0.1",
     "validator": "^3.19.0"
   },

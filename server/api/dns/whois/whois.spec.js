@@ -4,17 +4,16 @@ var should = require('should');
 var app = require('../../../app');
 var request = require('supertest');
 
-describe('POST /api/ip/spfToNetworks', function() {
+describe('GET /api/dns/whois', function() {
 
-  it('should respond with JSON array', function(done) {
+  it('should respond with JSON object', function(done) {
     request(app)
-      .post('/api/ip/spfToNetworks')
-      .send({domain: 'google.com'})
+      .get('/api/dns/whois?ip=8.8.8.8')
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
         if (err) return done(err);
-        res.body.should.be.instanceof(Array);
+        res.body.should.be.instanceof(Object);
         done();
       });
   });
