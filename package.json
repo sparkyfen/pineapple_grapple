@@ -18,6 +18,7 @@
     "method-override": "~1.0.0",
     "morgan": "~1.0.0",
     "nano": "^5.11.2",
+    "native-dns": "^0.7.0",
     "node-uuid": "^1.4.1",
     "serve-favicon": "~2.0.1",
     "validator": "^3.19.0"
