@@ -164,7 +164,7 @@
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
- *     ["google.com", "chase.com", "wellsfargo.com", "bankofamerica.com"]
+ *     ["google.com", "chase.com", "wellsfargo.com", "bankofamerica.com", "facebook.com", "twitter.com", "amazon.com"]
  *
  */
 
