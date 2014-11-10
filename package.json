@@ -22,7 +22,8 @@
     "node-whois": "^2.1.0",
     "range_check": "0.0.4",
     "serve-favicon": "~2.0.1",
-    "validator": "^3.19.0"
+    "validator": "^3.19.0",
+    "wigle.js": "git://github.com/brutalhonesty/wigle.js"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",
