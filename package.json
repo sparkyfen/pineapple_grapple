@@ -22,7 +22,8 @@
     "node-whois": "^2.1.0",
     "range_check": "0.0.4",
     "serve-favicon": "~2.0.1",
-    "validator": "^3.19.0"
+    "validator": "^3.19.0",
+    "wigle.js": "git://github.com/brutalhonesty/wigle.js"
   },
   "devDependencies": {
     "connect-livereload": "~0.4.0",
@@ -73,6 +74,7 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
+    "nock": "^0.48.2",
     "open": "~0.0.4",
     "requirejs": "~2.1.11",
     "should": "~3.3.1",

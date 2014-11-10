@@ -8,7 +8,12 @@ var nodes = db.getNodesTable();
 
 // Get a record given a AP mac address.
 exports.index = function(req, res) {
-  var apMac = req.body.apMac;
+  var apMac;
+  if(req.method === 'GET') {
+    apMac = req.query.apMac;
+  } else {
+    apMac = req.body.apMac;
+  }
   if(validator.isNull(apMac)) {
     return res.json(400, {message: 'AP Mac address is missing.'});
   }
@@ -18,7 +23,7 @@ exports.index = function(req, res) {
   db.searchByApMac(apMac, function (error, reply) {
     if(error) {
       console.log(error);
-      return res.json(500, {message: 'Could not add record.'});
+      return res.json(500, {message: 'Could not get record.'});
     }
     if(reply.rows.length === 0) {
       return res.json(400, {message: 'Record does not exist.'});

@@ -9,5 +9,9 @@ module.exports = {
   couchdb: {
     url: 'http://localhost:5984',
     nodes: 'pineapple-test-nodes'
+  },
+  wigle: {
+    username: 'testUser',
+    password: 'testPassword'
   }
 };
