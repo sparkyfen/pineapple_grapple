@@ -424,6 +424,56 @@
  *
  * @apiErrorExample Error-Response (Internal Server Error)
  *     HTTP/1.1 500 Internal Server Error
- *     {"message":"Could not add record."}
+ *     {"message":"Could not get record."}
+ *
+ */
+
+/**
+ * @api {post} /api/ap/wigle/location Location
+ * @apiVersion 1.0.0
+ * @apiName Location
+ * @apiGroup Wigle
+ * @apiPermission public
+ *
+ * @apiDescription Gets an access point record from the wigle.net database given it's MAC.
+ *
+ * @apiParam {String} apMac The access point MAC address.
+ *
+ * @apiExample CURL example:
+ *      curl -X POST 'https://pagrapple.com/api/ap/wigle/location' -d 'apMac=xx:xx:xx:xx:xx:xx'
+ *
+ * @apiSuccess {Object} node The record from the database
+ * @apiSuccess {String[]} node.updateTime The list of times the record has been updated. The values vary from full dates to epoch times.
+ * @apiSuccess {String} node.apMac The access point mac address.
+ * @apiSuccess {String} node.ssid The SSID of the access point.
+ * @apiSuccess {String} node.securityType The type of access point security. This is more general, you have Unknown, None, WEP, WPA, or WPA2
+ * @apiSuccess {Object} node.location The latitude and longitude of the access point.
+ * @apiSuccess {String} node.location.lat The latitude of the access point.
+ * @apiSuccess {String} node.location.lng The longitude of the access point.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {"updateTime":["2014-06-26 21:27:40","2014-06-27 00:34:13"],"apMac":"XX:XX:XX:XX:XX:XX","ssid":"myCoolSSID","securityType":"WPA2","location":{"lat":"XXX.XXXXXXXX","lng":"-XXX.XXXXXXXX"}}
+ *
+ * @apiError (Bad Request 400) MissingAPMac The access point mac address was not in the request.
+ * @apiError (Bad Request 400) InvalidAPMac The access point mac address provided is not valid.
+ * @apiError (Bad Request 400) RecordMissing The requested access point mac address is not in the database.
+ * @apiError (Internal Server Error 500) ServerError There was an issue on the server serving the request.
+ *
+ * @apiErrorExample Error-Response (Missing AP Mac)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"AP Mac address is missing."}
+ *
+ * @apiErrorExample Error-Response (Invalid AP Mac)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Invalid AP Mac address."}
+ *
+ * @apiErrorExample Error-Response (Record Missing)
+ *     HTTP/1.1 400 Bad Request
+ *     {"message":"Record does not exist."}
+ *
+ * @apiErrorExample Error-Response (Internal Server Error)
+ *     HTTP/1.1 500 Internal Server Error
+ *     {"message":"Could not retrieve location information on AP MAC address."}
  *
  */

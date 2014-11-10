@@ -38,7 +38,7 @@ exports.index = function(req, res) {
   wigle.login(settings.wigle.username, settings.wigle.password, function (error, results) {
     if(error) {
       console.log(error);
-      return res.json(400, {message: 'Record does not exist.'});
+      return res.json(500, {message: 'Could not retrieve location information on AP MAC address.'});
     }
     wigle.location({
       netid: apMac,
@@ -51,6 +51,9 @@ exports.index = function(req, res) {
     }, function (error, results) {
       if(error) {
         console.log(error);
+        return res.json(500, {message: 'Could not retrieve location information on AP MAC address.'});
+      }
+      if(results.result.length === 0) {
         return res.json(400, {message: 'Record does not exist.'});
       }
       var node = {
