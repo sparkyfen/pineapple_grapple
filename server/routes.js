@@ -11,6 +11,7 @@ module.exports = function(app) {
   // Insert routes below
   app.use('/api/ap/addRecord', require('./api/ap/addRecord'));
   app.use('/api/ap/getRecord', require('./api/ap/getRecord'));
+  app.use('/api/ap/wigle/location', require('./api/ap/wigle/location'));
   app.use('/api/dns/query', require('./api/dns/query'));
   app.use('/api/dns/whois', require('./api/dns/whois'));
   app.use('/api/dns/soa', require('./api/dns/soa'));

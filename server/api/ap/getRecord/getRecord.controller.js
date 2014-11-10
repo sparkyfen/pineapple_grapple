@@ -8,7 +8,12 @@ var nodes = db.getNodesTable();
 
 // Get a record given a AP mac address.
 exports.index = function(req, res) {
-  var apMac = req.body.apMac;
+  var apMac;
+  if(req.method === 'GET') {
+    apMac = req.query.apMac;
+  } else {
+    apMac = req.body.apMac;
+  }
   if(validator.isNull(apMac)) {
     return res.json(400, {message: 'AP Mac address is missing.'});
   }
