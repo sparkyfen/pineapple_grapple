@@ -59,8 +59,8 @@ exports.index = function(req, res) {
         apMac: apMac,
         ssid: ssid,
         securityType: securityType,
-        publicIP: publicIP,
-        hops: hops
+        publicIP: [publicIP],
+        hops: [hops]
       };
       db.insert(nodes, uuid.v4(), node, function (error) {
         if(error) {
@@ -78,10 +78,11 @@ exports.index = function(req, res) {
       if(utcNow - recentUpdate > 1200000) {
         node.updateTime.push(utcNow);
         node.clientMac.push(clientMac);
+        node.publicIP.push(publicIP);
+        node.hops.push(hops);
         if(node.ssid !== ssid) {
           // TODO We have a change in SSID for a particular access point mac address.
         }
-        // TODO We need to implement the check for the 3-strike rule.
         db.insert(nodes, node._id, node, function (error) {
           if(error) {
             console.log(error);
