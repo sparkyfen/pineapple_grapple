@@ -111,7 +111,7 @@ class NetworkInfo(object):
         ttl = 1
         hops = []
         while ttl < 4:
-            recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, self.icmp)
+            recv_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, self.icmp)
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, self.udp)
             send_socket.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
             recv_socket.bind(("", 33434))

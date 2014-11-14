@@ -14,7 +14,7 @@ GET_SOA_ENDPOINT = URL + '/api/dns/soa'
 GET_SPF_ENDPOINT = URL + '/api/dns/spf'
 GET_COMMON_DOMAINS_ENDPOINT = URL + '/api/dns/commonDomains'
 IP_QUERY_ENDPOINT = URL + '/api/ip/query'
-WIGLE_LOCATION_ENDPOINT = URL = '/api/ap/wigle/location'
+WIGLE_LOCATION_ENDPOINT = URL + '/api/ap/wigle/location'
 
 
 class API(object):

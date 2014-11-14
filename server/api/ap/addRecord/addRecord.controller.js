@@ -75,6 +75,7 @@ exports.index = function(req, res) {
       var utcNow = Date.now(Date.UTC());
       var recentUpdate = node.updateTime[node.updateTime.length - 1];
       // Only allow additions every 20 minutes.
+      // TODO Take this out.
       if(utcNow - recentUpdate > 1200000) {
         node.updateTime.push(utcNow);
         node.clientMac.push(clientMac);
