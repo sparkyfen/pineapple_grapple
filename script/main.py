@@ -58,6 +58,7 @@ print RED + 'This is a proof of concept application. We are not responsible for 
 # Initialize constructors
 net_info = network_info.NetworkInfo()
 api = api.API()
+safety_weight = 100
 
 # Get public IP address.
 print 'Determining public IP address.'
@@ -95,20 +96,20 @@ if ap_record is not None:
     # Checking security type against the record
     print 'Checking security type against record.'
     if ap_record['securityType'] != network_info['security_type']:
-        # TODO Weight here
+        safety_weight -= 28
         print RED + 'Security type of known network is different.' + ENDC
         print RED + 'Current type is ' + network_info['security_type'] + ' and recorded type is ' + ap_record['securityType'] + ENDC
     # Checking SSID against the record
     print 'Checking SSID against record.'
     if ap_record['ssid'] != network_info['ssid']:
-        # TODO Weight here
+        safety_weight -= 3
         print RED + 'ESSID of known network is different.' + ENDC
         print RED + 'Current ESSID is ' + network_info['ssid'] + ' and the recorded type is ' + ap_record['ssid'] + ENDC
     # Check the public IP address against the records
     print 'Checking public IP address against records'
     for public_ip_record in ap_record['publicIP']:
         if public_ip_record != public_ip:
-            # TODO Weight here
+            safety_weight -= 6
             print RED + 'Public IPs of the known network are different.' + ENDC
             print RED + 'Current IP address is ' + public_ip + ' and recorded address that differs is ' + public_ip_record + ENDC
             # Check if IP address is listed under a known U.S. wireless carrier
@@ -116,7 +117,7 @@ if ap_record is not None:
             reverse_ip_lookup_req = api.reverse_ip(public_ip)
             reverse_ip_lookup = reverse_ip_lookup_req.json()
             if(reverse_ip_lookup['isWirelessProvider']):
-                # TODO Weight here
+                safety_weight -= 6
                 print RED + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they ARE a US cellphone wireless provider.' + ENDC
                 print RED + 'This connection could potentially be routed through a 3g/4g SIM card.' + ENDC
             else:
@@ -129,7 +130,7 @@ if ap_record is not None:
             if x not in record_hops:
                 hop_difference.append(x)
             if len(hop_difference) is not 0:
-                # TODO Weight here
+                safety_weight -= 10
                 print RED + 'Traceroute hops are different.' + ENDC
                 print RED + 'Current hops are ' + ','.join(hops) + ' and recorded hops are ' + ','.join(record_hops) + ENDC
     # Checking DNS results with server.
@@ -140,7 +141,7 @@ if ap_record is not None:
 
         validate_ips_req = api.validate_ips(address_dict["domain"], address_dict["addresses"])
         if validate_ips_req.status_code is not 200:
-            # TODO Weight here
+            safety_weight -= 42
             print RED + validate_ips.json()["message"] + ENDC
 else:
     # No record in database, check Wigle
@@ -152,11 +153,11 @@ else:
     if get_wigle_location_req.status_code is 200:
         # We have a Wigle record, check the SSID and security type.
         if network_info['ssid'] != wigle_location['ssid']:
-            # TODO Weight here
+            safety_weight -= 2.5
             print RED + 'ESSID of known network is different.' + ENDC
             print RED + 'Current ESSID is ' + network_info['ssid'] + ' and the recorded type is ' + ap_record['ssid'] + ENDC
         if network_info['security_type'] != wigle_location['securityType']:
-            # TODO Weight here
+            safety_weight -= 2.5
             print RED + 'Security type of known network is different.' + ENDC
             print RED + 'Current type is ' + network_info['security_type'] + ' and recorded type is ' + ap_record['securityType'] + ENDC
     else:
@@ -171,20 +172,21 @@ else:
 
         validate_ips_req = api.validate_ips(address_dict["domain"], address_dict["addresses"])
         if validate_ips_req.status_code is not 200:
-            # TODO Weight here
+            safety_weight -= 55
             print RED + validate_ips_req.json()["message"] + ENDC
     print 'Checking public IP address to see if listed under a known U.S. wireless carrier'
     reverse_ip_lookup_req = api.reverse_ip(public_ip)
     reverse_ip_lookup = reverse_ip_lookup_req.json()
     if reverse_ip_lookup['isWirelessProvider']:
-        # TODO Weight here
+        safety_weight -= 30
         print RED + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they ARE a US cellphone wireless provider.' + ENDC
         print RED + 'This connection could potentially be routed through a 3g/4g SIM card.' + ENDC
     else:
         print YELLOW + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they are not a US cellphone wireless provider.' + ENDC
-    if router_ip is '172.16.42.1':
-        # TODO Weight here
-        print YELLOW + 'Router IP address is a known default IP address of a Wi-Fi Pineapple.' + ENDC
+# Check the default gateway IP address
+if router_ip is '172.16.42.1':
+    safety_weight -= 10
+    print YELLOW + 'Router IP address is a known default IP address of a Wi-Fi Pineapple.' + ENDC
 print 'Adding record into database.'
 add_record_req = api.add_record(
     network_info['ssid'], network_info['bssid'],
@@ -196,3 +198,5 @@ if add_record_req.status_code is 200:
     print 'Complete.'
 else:
     print RED + add_record_req.json()['message'] + ENDC
+
+print 'We are ' + str(safety_weight) + '% sure you are safe.'
