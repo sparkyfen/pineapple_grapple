@@ -9,7 +9,10 @@ function validateNetworkOwner(networkOwner, domain, callback) {
     'google.com': 'GOOGLE.COM',
     'wellsfargo.com': 'WACHOVIASECURITIES.COM',
     'chase.com': 'JPMCHASE.COM',
-    'bankofamerica.com': 'BANKOFAMERICA.COM'
+    'bankofamerica.com': 'BANKOFAMERICA.COM',
+    'facebook.com': 'FACEBOOK.COM',
+    'twitter.com': 'TWITTER.COM',
+    'amazon.com': 'AMAZON.COM'
   };
   if(Object.keys(allowedOwners).indexOf(domain) === -1) {
     return {isValid: false, message: 'The requested domain is not in the allowed list.'};
