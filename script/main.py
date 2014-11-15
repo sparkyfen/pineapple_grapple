@@ -141,7 +141,7 @@ else:
         validate_ips_req = api.validate_ips(address_dict["domain"], address_dict["addresses"])
         if validate_ips_req.status_code is not 200:
             # TODO Weight here
-            print RED + validate_ips.json()["message"] + ENDC
+            print RED + validate_ips_req.json()["message"] + ENDC
     print 'Checking public IP address to see if listed under a known U.S. wireless carrier'
     reverse_ip_lookup_req = api.reverse_ip(public_ip)
     reverse_ip_lookup = reverse_ip_lookup_req.json()
@@ -151,7 +151,7 @@ else:
         print RED + 'This connection could potentially be routed through a 3g/4g SIM card.' + ENDC
     else:
         print YELLOW + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they are not a US cellphone wireless provider.' + ENDC
-    # TODO Check Router IP address to see if it matches Pineaple IP address.
+    # TODO Check Router IP address to see if it matches Pineapple IP address.
 print 'Adding record into database.'
 add_record_req = api.add_record(
     network_info['ssid'], network_info['bssid'],
