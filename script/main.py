@@ -25,6 +25,36 @@ args = parser.parse_args()
 if args.verbose:
     logging.basicConfig(level=logging.DEBUG)
 
+print r'''
+
+                                               .NN,
+                                    .cxxdl'    xMMO    'cdxxl'
+                                      .c0WMNk;,NMMW:,xXMMKo.
+                                      ...:KMMMWMMMMWMMMXc...           .
+                         ,        .l0NMMMNXMMMMMMMMMMMMXNMMMWKl'      xWd
+                       ,0Wd         .':xNMMMMMMMMMMMMMMMMNkc'.        ;KM0'
+                      lWMo            .;dNMMMMMMMMMMMMMMWx:.      .l.   dMWc
+                     :WWo   oNd   .;xKWMMMMMMMMMMMMMMMMMMMMWXx:.  dWX:   dMW;
+                    ,NWo   oMW:   .. ..,lOXWMMMMMMMMMMWN0o;.. ..   cWMl   dMN'
+                   .XMx   oWN;   lc     .loooolcooclooool.    cXl   oMWc   kMK.
+                   oMW'  ,WMl   cMW:   lWMW0d:;cdd:;:o0WMWl   lMW:   OMW'  ,WMl
+                   0M0   xMX.  .XMd   .lo:.,dXMMMMMMXd,.:ol.   kMK.  'NMd   KMO
+                   NMd   KMk   lMN.  .;:xOxollccddcclloxOx:;.  'WM:   OM0   xMX
+                   WMo  .XMx   dMK   oNMMMMWOc;;ol;;cOWMMMMNo  .XMl   kMK   dMN
+                   NMx   0MO   :Kd. .lllcl;.:0WMMMMW0:.;lclll. .xK;   0MO   kMX
+                                   .:W0;,oxl:::oOOo:::lxo,;0W:   _   .ONo   KMk
+                                   ;cKMMMMWk:.;,.;kWMMMMKc;.               .OX:
+   ___ _                              _          ___                       _
+  / _ (_)_ __   ___  __ _ _ __  _ __ | | ___    / _ \_ __ __ _ _ __  _ __ | | ___
+ / /_)/ | '_ \ / _ \/ _` | '_ \| '_ \| |/ _ \  / /_\/ '__/ _` | '_ \| '_ \| |/ _ \
+/ ___/| | | | |  __/ (_| | |_) | |_) | |  __/ / /_\\| | | (_| | |_) | |_) | |  __/
+\/    |_|_| |_|\___|\__,_| .__/| .__/|_|\___| \____/|_|  \__,_| .__/| .__/|_|\___|
+                         |_|   |_|                            |_|   |_|
+
+'''
+
+print RED + 'This is a proof of concept application. We are not responsible for any harm that may come from you or your computing devices by connecting to a network or using this software.' + ENDC
+
 # Initialize constructors
 net_info = network_info.NetworkInfo()
 api = api.API()
@@ -51,6 +81,7 @@ if network_info is None:
 # Calculate Traceroute hops to 8.8.8.8
 print 'Calculating traceroute hops.'
 hops = net_info.calculate_hops()
+router_ip = hops[0]
 
 # Validate DNS records to check for DNS spoofing
 print 'Calculating DNS records.'
@@ -145,13 +176,15 @@ else:
     print 'Checking public IP address to see if listed under a known U.S. wireless carrier'
     reverse_ip_lookup_req = api.reverse_ip(public_ip)
     reverse_ip_lookup = reverse_ip_lookup_req.json()
-    if(reverse_ip_lookup['isWirelessProvider']):
+    if reverse_ip_lookup['isWirelessProvider']:
         # TODO Weight here
         print RED + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they ARE a US cellphone wireless provider.' + ENDC
         print RED + 'This connection could potentially be routed through a 3g/4g SIM card.' + ENDC
     else:
         print YELLOW + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they are not a US cellphone wireless provider.' + ENDC
-    # TODO Check Router IP address to see if it matches Pineapple IP address.
+    if router_ip is '172.16.42.1':
+        # TODO Weight here
+        print YELLOW + 'Router IP address is a known default IP address of a Wi-Fi Pineapple.' + ENDC
 print 'Adding record into database.'
 add_record_req = api.add_record(
     network_info['ssid'], network_info['bssid'],
