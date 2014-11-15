@@ -4,6 +4,7 @@ import logging
 import socket
 from subprocess import check_output, Popen, PIPE
 import re
+import api
 from sys import platform as platform
 
 
@@ -13,6 +14,7 @@ class NetworkInfo(object):
     def __init__(self):
         self.icmp = socket.getprotobyname('icmp')
         self.udp = socket.getprotobyname('udp')
+        self.api = api.API()
         pass
 
     def __str__(self):
@@ -74,7 +76,7 @@ class NetworkInfo(object):
                 bssid = line.split(': ')[1].rstrip()
             if line.startswith("authentication"):
                 security_type = line.split(': ')[1].rstrip()
-                #Standardize Security type
+                # Standardize Security type
                 if security_type == 'wpa2-enterprise':
                     security_type = 'WPA2 Enterprise'
                 elif security_type == 'wpa2-personal':
@@ -109,7 +111,8 @@ class NetworkInfo(object):
         ttl = 1
         hops = []
         while ttl < 4:
-            recv_socket = socket.socket(socket.AF_INET, socket.SOCK_RAW, self.icmp)
+            logging.debug('Start traceroute hop ' + str(ttl))
+            recv_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, self.icmp)
             send_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, self.udp)
             send_socket.setsockopt(socket.SOL_IP, socket.IP_TTL, ttl)
             recv_socket.bind(("", 33434))
@@ -138,7 +141,6 @@ class NetworkInfo(object):
             hops.append(curr_host)
         return hops
 
-
     def get_win_hops(self):
         # Open a cmd process to execute cmd command.
         max_hops = 3
@@ -159,13 +161,9 @@ class NetworkInfo(object):
 
         return hops
 
-
-    def get_common_domains(self):
-        # TODO Make this list a queryable API endpoint.
-        return ["google.com", "chase.com", "wellsfargo.com", "bankofamerica.com"]
-
     def lookup_domains(self):
-        domains = self.get_common_domains()
+        domains_req = self.api.get_common_domains()
+        domains = domains_req.json()
         address_list = []
         for domain in domains:
             addr_info = socket.gethostbyname_ex(domain)
