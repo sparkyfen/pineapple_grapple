@@ -135,14 +135,17 @@ if ap_record is not None:
                 print RED + 'Current hops are ' + ','.join(hops) + ' and recorded hops are ' + ','.join(record_hops) + ENDC
     # Checking DNS results with server.
     print 'Checking DNS results with server.'
+    dns_validate_failed = False
     for address_dict in address_list:
         print 'Checking domain: ' + address_dict["domain"]
         logging.debug('IP addresses being checked: ' + ','.join(address_dict["addresses"]))
 
         validate_ips_req = api.validate_ips(address_dict["domain"], address_dict["addresses"])
         if validate_ips_req.status_code is not 200:
-            safety_weight -= (42 / len(address_list))
+            dns_validate_failed = True
             print RED + validate_ips_req.json()["message"] + ENDC
+    if dns_validate_failed:
+        safety_weight -= 42
     # Check the default gateway IP address
     if router_ip == '172.16.42.1':
         safety_weight -= 5
@@ -170,14 +173,17 @@ else:
         print YELLOW + get_wigle_location_req.json()['message'] + ENDC
     # Checking DNS results with server.
     print 'Checking DNS results with server.'
+    dns_validate_failed = False
     for address_dict in address_list:
         logging.debug('Checking domain: ' + address_dict["domain"])
         logging.debug('IP addresses being checked: ' + ','.join(address_dict["addresses"]))
 
         validate_ips_req = api.validate_ips(address_dict["domain"], address_dict["addresses"])
         if validate_ips_req.status_code is not 200:
-            safety_weight -= (55 / len(address_list))
+            dns_validate_failed = True
             print RED + validate_ips_req.json()["message"] + ENDC
+    if dns_validate_failed:
+        safety_weight -= 55
     print 'Checking public IP address to see if listed under a known U.S. wireless carrier'
     reverse_ip_lookup_req = api.reverse_ip(public_ip)
     reverse_ip_lookup = reverse_ip_lookup_req.json()
@@ -204,5 +210,5 @@ else:
     print RED + add_record_req.json()['message'] + ENDC
 
 print 'We are ' + str(safety_weight) + '% sure you are safe.'
-if safety_weight < 70:
+if safety_weight < 55:
     print 'We recommend not staying on this network or connecting to a VPN.'
