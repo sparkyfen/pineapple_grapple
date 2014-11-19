@@ -97,7 +97,13 @@ class NetworkInfo(object):
     def get_linux_net_info(self):
         ifconfig = Popen(['ifconfig','']).communicate()[0]
         iwconfig = Popen(['iwconfig','']).communicate()[0]
-        iwlist_scan = Popen(['iwlist_scan','']).communicate()[0]
+
+        eth = self.getiwconfigdata(iwconfig)[0]['interface']
+        if eth == None:
+            logging.error('IWCONFIG: No wireless interface found')
+            exit(1)
+
+        iwlist_scan = Popen(['iwlist ' + eth + ' scan','']).communicate()[0]
         return_value = self.getwifidata(ifconfig, iwconfig, iwlist_scan)
         logging.debug(return_value)
         return return_value
