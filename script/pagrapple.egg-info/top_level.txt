@@ -1,3 +1,0 @@
-api
-main
-network_info
