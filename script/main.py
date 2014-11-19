@@ -129,10 +129,10 @@ if ap_record is not None:
         for x in hops:
             if x not in record_hops:
                 hop_difference.append(x)
-            if len(hop_difference) is not 0:
-                safety_weight -= 10
-                print RED + 'Traceroute hops are different.' + ENDC
-                print RED + 'Current hops are ' + ','.join(hops) + ' and recorded hops are ' + ','.join(record_hops) + ENDC
+    if len(hop_difference) is not 0:
+        safety_weight -= 10
+        print RED + 'Traceroute hops are different.' + ENDC
+        print RED + 'Current hop differences are: ' + ','.join(hop_difference) + ENDC
     # Checking DNS results with server.
     print 'Checking DNS results with server.'
     dns_validate_failed = False
