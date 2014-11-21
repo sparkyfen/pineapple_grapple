@@ -27,3 +27,6 @@ Installation Instructions for Linux/Ubuntu
     $ python setup.py install
 6. Connect to a WiFi network and run the client python script by running the command
     $ python main.py
+
+ Linux Development is still not complete
+ ===============================
