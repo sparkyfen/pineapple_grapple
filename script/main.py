@@ -107,9 +107,11 @@ if ap_record is not None:
         print RED + 'Current ESSID is ' + network_info['ssid'] + ' and the recorded type is ' + ap_record['ssid'] + ENDC
     # Check the public IP address against the records
     print 'Checking public IP address against records'
+    public_ip_validate_failed = False
+    wireless_provider_validate_failed = False
     for public_ip_record in ap_record['publicIP']:
         if public_ip_record != public_ip:
-            safety_weight -= 6
+            public_ip_validate_failed = True
             print RED + 'Public IPs of the known network are different.' + ENDC
             print RED + 'Current IP address is ' + public_ip + ' and recorded address that differs is ' + public_ip_record + ENDC
             # Check if IP address is listed under a known U.S. wireless carrier
@@ -117,11 +119,15 @@ if ap_record is not None:
             reverse_ip_lookup_req = api.reverse_ip(public_ip)
             reverse_ip_lookup = reverse_ip_lookup_req.json()
             if(reverse_ip_lookup['isWirelessProvider']):
-                safety_weight -= 6
+                wireless_provider_validate_failed = True
                 print RED + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they ARE a US cellphone wireless provider.' + ENDC
                 print RED + 'This connection could potentially be routed through a 3g/4g SIM card.' + ENDC
             else:
                 print YELLOW + 'Current IP address owner is ' + reverse_ip_lookup['org'] + ' and they are not a US cellphone wireless provider.' + ENDC
+    if public_ip_validate_failed:
+        safety_weight -= 6
+    if wireless_provider_validate_failed:
+        safety_weight -= 6
     # Check traceroute hops against the records
     print 'Checking traceroute hops against records'
     hop_difference = []
@@ -197,18 +203,18 @@ else:
     if router_ip == '172.16.42.1':
         safety_weight -= 10
         print YELLOW + 'Router IP address is a known default IP address of a Wi-Fi Pineapple.' + ENDC
-print 'Adding record into database.'
-add_record_req = api.add_record(
-    network_info['ssid'], network_info['bssid'],
-    network_info['client_mac'],
-    network_info['security_type'],
-    public_ip, hops)
-if add_record_req.status_code is 200:
-    print add_record_req.json()['message']
-    print 'Complete.'
-else:
-    print RED + add_record_req.json()['message'] + ENDC
-
 print 'We are ' + str(safety_weight) + '% sure you are safe.'
 if safety_weight < 55:
     print 'We recommend not staying on this network or connecting to a VPN.'
+else:
+    print 'Adding record into database.'
+    add_record_req = api.add_record(
+        network_info['ssid'], network_info['bssid'],
+        network_info['client_mac'],
+        network_info['security_type'],
+        public_ip, hops)
+    if add_record_req.status_code is 200:
+        print add_record_req.json()['message']
+        print 'Complete.'
+    else:
+        print RED + add_record_req.json()['message'] + ENDC
